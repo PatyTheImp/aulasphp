@@ -1,0 +1,33 @@
+body {
+    background-color: #121112; 
+    overflow-x: hidden;   
+}
+
+h1 {   
+    font-size: 75px;
+    text-shadow: 5px 5px #4C0026;
+    text-align: center;
+}
+
+h1, h3 {
+    color: #AB0039;
+    font-family: 'Sansita Swashed', cursive; 
+}
+
+a, li {
+    text-decoration: none;
+    color: pink;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.tuna {
+    animation: walk-cycle 10s linear infinite;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+  }
+
+@keyframes walk-cycle {
+    0% {left: -38px;}
+    100% {left: 100%;}
+ }
