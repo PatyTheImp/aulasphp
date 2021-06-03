@@ -5,9 +5,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="navbarsExample04">
 
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto navbar-collapse">
           <li class="nav-item active">
             <a class="nav-link" aria-current="page" href="<?= URLROOT; ?>">Home</a>
           </li>
@@ -16,13 +16,26 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item active">
-            <a class="nav-link" aria-current="page" href="<?= URLROOT; ?>/users/register">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= URLROOT; ?>/users/">Login</a>
-          </li>
+        <ul class="navbar-nav me-auto navbar-collapse">
+
+          <?php if (isset($_SESSION['user_id'])) : ?>
+            <li class="nav-item active">
+              <a class="nav-link" aria-current="page" href="#">Welcome <?= $_SESSION['user_name']; ?></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" aria-current="page" href="<?= URLROOT; ?>/users/logout">Logout</a>
+            </li>
+          <?php else: ?>
+
+            <li class="nav-item active">
+              <a class="nav-link" aria-current="page" href="<?= URLROOT; ?>/users/register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= URLROOT; ?>/users/login">Login</a>
+            </li>
+
+          <?php endif; ?>
+
         </ul>
         
       </div>

@@ -80,6 +80,7 @@ class Users extends Controller
                 //Register user
                 if ($this->userModel->register($data))
                 {
+                    flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
                 }
                 else
@@ -144,11 +145,35 @@ class Users extends Controller
                 $data['password_err'] = 'Please enter password';
             }
 
+            //Check for users/email
+            if ($this->userModel->findUserByEmail($data['email']))
+            {
+                //User found
+            }
+            else
+            {
+                //User not found
+                $data['email_err'] = 'No user found';
+            }
+
             //Make sure errors are empty
             if (empty($data['email_err']) && empty($data['password_err']))
             {
                 //Validade
-                die('SUCCESS');
+                //Check and set logged in user
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                if ($loggedInUser)
+                {
+                    //Create Session
+                    $this->createUserSession($loggedInUser);
+                }
+                else
+                {
+                    $data['password_err'] = 'Password incorrect';
+
+                    $this->view('users/login', $data);
+                }
             }
             else
             {
@@ -170,5 +195,24 @@ class Users extends Controller
             //Load view
             $this->view('users/login', $data);
         }
+    }
+
+    public function createUserSession($user)
+    {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_email'] = $user->email;
+        $_SESSION['user_name'] = $user->name;
+        redirect('posts');
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_email']);
+        unset($_SESSION['user_name']);
+
+        session_destroy();
+
+        redirect('users/login');
     }
 }
